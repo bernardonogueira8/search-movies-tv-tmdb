@@ -1,6 +1,6 @@
 <div align="center">
   
-# Obsidian Plugin TMDB 
+# Search Movies and TV Shows TMDB
 
 <p align="center">
 	<img src="https://img.shields.io/badge/version project-1.0-brightgreen" alt="version project">
@@ -12,6 +12,23 @@ Um plugin para buscar informações de filmes usando a API TMDB.
 
 </div>
 
+## 🚀 Como Instalar (Installation)
+
+No momento, você pode instalar este plugin manualmente:
+
+1. Baixe o último release (`main.js`, `manifest.json` e `styles.css`) na página de [Releases](../../releases) do repositório.
+2. No seu cofre (vault) do Obsidian, abra a pasta `.obsidian/plugins/`. Se a pasta `plugins` não existir, crie-a.
+3. Crie uma nova pasta chamada `obsidian-plugin-tmdb`.
+4. Extraia os arquivos baixados para dentro desta nova pasta.
+5. Abra o Obsidian, vá em **Configurações > Plugins da comunidade**, desative o "Modo de segurança" (se estiver ativo) e ative o plugin "Search Movies and TV Shows TMDB".
+
+## 💻 Como Usar (Usage)
+
+1. Após ativar o plugin, acesse as configurações do plugin no Obsidian.
+2. Insira a sua chave da API do TMDB (TMDB API Key). Você pode conseguir uma gratuitamente no site do [TMDB](https://www.themoviedb.org/).
+3. Abra a Paleta de Comandos (`Ctrl/Cmd + P`) e digite **TMDB**.
+4. Selecione a opção para buscar um filme ou série e digite o nome da obra.
+5. As informações serão importadas automaticamente para a sua nota atual!
 
 ## Estrutura do Plugin
 ```
