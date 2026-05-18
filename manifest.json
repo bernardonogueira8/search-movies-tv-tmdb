@@ -1,0 +1,10 @@
+{
+	"id": "search-tmdb-movies",
+	"name": "Movies and TV Shows TMDB Search",
+	"version": "1.0.0",
+	"minAppVersion": "1.0.0",
+	"description": "Search for movies and TV shows on TMDB and automatically create notes with ratings.",
+	"author": "Bernardo Nogueira",
+	"authorUrl": "https://github.com/bernardonogueira8",
+	"isDesktopOnly": true
+}

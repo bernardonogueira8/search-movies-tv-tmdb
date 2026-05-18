@@ -1,0 +1,27 @@
+{
+    "name": "obsidian-plugin-tmdb",
+    "version": "1.0.0",
+    "description": "Um plugin do Obsidian para buscar filmes e séries na TMDB e criar notas automaticamente.",
+    "main": "main.js",
+    "scripts": {
+		"dev": "cross-env PLUGIN_DIR=tmdb-vault/.obsidian/plugins/obsidian-plugin-tmdb node esbuild.config.mjs",
+        "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+        "deploy": "cross-env PLUGIN_DIR=tmdb-vault/.obsidian/plugins/obsidian-plugin-tmdb node esbuild.config.mjs production",
+        "version": "node version-bump.mjs && git add manifest.json versions.json"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "@typescript-eslint/eslint-plugin": "^8.0.0",
+        "@typescript-eslint/parser": "^8.0.0",
+        "builtin-modules": "^3.3.0",
+        "cross-env": "^10.1.0",
+        "esbuild": "^0.28.0",
+        "eslint": "^9.0.0",
+        "obsidian": "latest",
+        "tslib": "^2.6.0",
+        "typescript": "^5.4.0"
+    }
+}

@@ -1,0 +1,208 @@
+{
+  "main": {
+    "id": "eeaaf3f830081ddc",
+    "type": "split",
+    "children": [
+      {
+        "id": "45c24b74489e03f9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "353a8a24fa02ebea",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nova aba"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c48e5fda06be831f",
+    "type": "split",
+    "children": [
+      {
+        "id": "8b86ad446f874b37",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ccf89ec1401bd8a5",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "d296b9790c1f9509",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "3c47e6016760b1b7",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "d5ebbf608d7f174e",
+    "type": "split",
+    "children": [
+      {
+        "id": "66966bcbaf7d03ef",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "46b5d209b84afb67",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Bem-vindo.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos para Bem-vindo"
+            }
+          },
+          {
+            "id": "30d729d1e702d523",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Bem-vindo.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída para Bem-vindo"
+            }
+          },
+          {
+            "id": "dd53c1b6ef9dd48a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "925b2e4c3ac3b79d",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "4bbc38e02e4622d3",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Bem-vindo.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário de Bem-vindo"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false,
+      "obsidian-plugin-tmdb:TMDB Plugin": false,
+      "notebook-navigator:Notebook Navigator": false
+    }
+  },
+  "active": "ccf89ec1401bd8a5",
+  "lastOpenFiles": [
+    "Notes/Series/Ranma12 (2024).md",
+    "Filmes/Jogador N° 1 (2018).md",
+    "Filmes/ddd (2024).md",
+    "Filmes/BaddDDD Sonia Sanchez (2015).md",
+    "Filmes/Tod in Istanbul (2010).md",
+    "Filmes/Cells at Work! (2024).md",
+    "Filmes/Lan Yu (2001).md",
+    "Filmes/O Monstro da Ilha (2025).md",
+    "Filmes/Faces da Morte (2026).md",
+    "Filmes/Todo Mundo em Pânico (2000).md",
+    "Filmes/Okay! (The ASD Band Film) (2022).md",
+    "Filmes/O Urso do Pó Branco (2023).md",
+    "Filmes/Todo Mundo em Pânico (2026).md",
+    "Notes/Series",
+    "Filmes",
+    "Notes/Apenas Amigos (2005).md",
+    "Notes/List Film.md",
+    "media",
+    "Sem título.md",
+    "Bem-vindo.md",
+    "Notes"
+  ]
+}
