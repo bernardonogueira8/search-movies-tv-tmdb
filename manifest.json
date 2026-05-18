@@ -1,5 +1,5 @@
 {
-	"id": "search-tmdb-movies",
+	"id": "search-movies-tv-tmdb",
 	"name": "Movies and TV Shows TMDB Search",
 	"version": "1.0.0",
 	"minAppVersion": "1.0.0",
