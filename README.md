@@ -1,20 +1,23 @@
-<div align="center">
-  
-# Search Movies and TV Shows TMDB
-
-<p align="center">
-	<img src="https://img.shields.io/badge/version project-1.0-brightgreen" alt="version project">
-	<img src="https://img.shields.io/npm/v/npm.svg?logo=nodedotjs" alt="node version">
-</p>
-
+# Search Movies and TV Shows TMDB <img src="https://img.shields.io/badge/version project-1.0.1-brightgreen" alt="version project">
 Um plugin para buscar informações de filmes usando a API TMDB. 
-<img src="https://user-images.githubusercontent.com/62897976/185768581-1d051a52-2e60-4378-b31d-39028cbfb5c8.svg" alt="status-em-andamento">
 
-</div>
+<img width="1142" height="731" alt="image" src="https://github.com/user-attachments/assets/d623ed6c-f519-4720-a0ae-af14b7a34d3d" />
+
+## Funcionalidades
+- Busca no TMDB: Busque filmes e séries de TV através da paleta de comandos, com busca automática de metadados.
+- Registros com Modelos: Gere automaticamente arquivos Markdown com pôsteres, classificações, sinopses, etc.
+- Suporte a Séries: Acompanhe séries de TV por temporada, incluindo listas de episódios e progresso de visualização.
+- Visualização em Cartões: Navegue por todos os registros de visualização em uma grade visual de cartões.
+- Campos Pessoais: Preencha com suas impressões, classificação pessoal, plataforma de visualização, status de visualização, etc.
+- Recomendo usar com plugin: [Obsidian-projects](https://github.com/obsmd-projects/obsidian-projects).
 
 ## 🚀 Como Instalar (Installation)
+**Método 1: Instalar a partir dos Plugins da Comunidade Obsidian (Recomendado)**
+1. Abra o Obsidian → Configurações → Plugins da Comunidade → Procurar
+2. Pesquise por "Search Movies and TV Shows TMDB"
+3. Clique em Instalar e Ativar
 
-No momento, você pode instalar este plugin manualmente:
+**Método 2: você pode instalar este plugin manualmente:**
 
 1. Baixe o último release (`main.js`, `manifest.json`) na página de [Releases](../../releases) do repositório.
 2. No seu cofre (vault) do Obsidian, abra a pasta `.obsidian/plugins/`. Se a pasta `plugins` não existir, crie-a.
@@ -25,42 +28,15 @@ No momento, você pode instalar este plugin manualmente:
 ## 💻 Como Usar (Usage)
 
 1. Após ativar o plugin, acesse as configurações do plugin no Obsidian.
+   <img width="555" height="549" alt="image" src="https://github.com/user-attachments/assets/846e55f1-815b-42fe-99d5-4d2f74cc4fec" />
 2. Insira a sua chave da API do TMDB (TMDB API Key). Você pode conseguir uma gratuitamente no site do [TMDB](https://www.themoviedb.org/).
 3. Abra a Paleta de Comandos (`Ctrl/Cmd + P`) e digite **TMDB**.
+   <img width="751" height="272" alt="image" src="https://github.com/user-attachments/assets/30368bb7-2570-49af-b493-ac16752ebb3a" />
 4. Selecione a opção para buscar um filme ou série e digite o nome da obra.
+   <img width="606" height="762" alt="image" src="https://github.com/user-attachments/assets/2a011ed0-7743-4b9f-b862-a2cf384d60b6" />
 5. As informações serão importadas automaticamente para a sua nota atual!
+   <img width="593" height="751" alt="image" src="https://github.com/user-attachments/assets/c128d979-4a3f-4371-92b4-5d2ff41aab16" />
 
-## Estrutura do Plugin
-```
-search-movies-tv-tmdb/
-├── .gitignore
-├── README.md
-├── package.json
-├── tsconfig.json           
-├── manifest.json
-├── main.ts
-├── dist/                   # Arquivos gerados pelo build
-└── test-vault/             # Cofre do Obsidian para testes
-    ├── .obsidian/          # Configurações específicas do cofre
-    │   ├── plugins/        # Plugins do cofre
-    │   │   ├── hot-reload/ # Plugin para recarregar plugin durante desenvolvimento
-    │   │   └── obsidian-plugin-tmdb/ # Plugin
-    │   ├── workspace.json
-    │   └── app.json
-    ├── Notes/              # Notas de exemplo
-    │   └── Test Note.md
-    └── Attachments/        # Arquivos anexos para teste
-```
-
-## 🎯 Implementações/Features
-
-- [x] Começando
-- [x] Estilos Globais do Projeto
-- [x] Estruturação/Estilização Avançada
-- [x] Resolvendo Bugs
-- [x] Organizando Estrutura da pasta
-- [x] Projeto Finalizado
-- [x] Publicando
 ## 🤔 Como Ajudar
 
 - Bifurque este repositório;
