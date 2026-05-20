@@ -1,7 +1,7 @@
 # Search Movies and TV Shows TMDB <img src="https://img.shields.io/badge/version project-1.0.1-brightgreen" alt="version project">
 Um plugin para buscar informações de filmes usando a API TMDB. 
 
-<img width="1142" height="731" alt="image" src="https://github.com/user-attachments/assets/d623ed6c-f519-4720-a0ae-af14b7a34d3d" />
+<img alt="image" src="https://github.com/user-attachments/assets/d623ed6c-f519-4720-a0ae-af14b7a34d3d" />
 
 ## Funcionalidades
 - Busca no TMDB: Busque filmes e séries de TV através da paleta de comandos, com busca automática de metadados.
