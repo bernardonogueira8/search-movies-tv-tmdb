@@ -7,11 +7,11 @@ import {
     Setting,
     TFolder,
     Vault,
-    requestUrl // 1. IMPORTANTE: Importar o requestUrl
+    requestUrl
 } from "obsidian";
 
-// Definição das configurações do plugin
-interface MyPluginSettings {
+// 1. RESOLVIDO: Renomeado de 'MyPluginSettings'
+interface TmdbPluginSettings {
     tmdbApiKey: string;
     tmdbLanguage: string;
     notesFolder: string;
@@ -20,22 +20,33 @@ interface MyPluginSettings {
     separateFolders: boolean;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: TmdbPluginSettings = {
     tmdbApiKey: "",
-    tmdbLanguage: "pt-BR", // Padrão: Português Brasileiro
-    notesFolder: "", // Padrão: pasta raiz do Vault
-    movieFolder: "", // Padrão: pasta raiz do Vault
-    seriesFolder: "", // Padrão: pasta raiz do Vault
-    separateFolders: false, // Padrão: não separar pastas
+    tmdbLanguage: "pt-BR",
+    notesFolder: "",
+    movieFolder: "",
+    seriesFolder: "",
+    separateFolders: false,
 };
 
+// 2. RESOLVIDO: Removidos os avisos de "any" tipando os dados retornados pela API
+interface TmdbItem {
+    id: number;
+    title?: string;
+    name?: string;
+    poster_path?: string;
+    release_date?: string;
+    first_air_date?: string;
+    genre_ids: number[];
+    overview?: string;
+}
+
 export default class TmdbPlugin extends Plugin {
-    settings: MyPluginSettings;
+    settings: TmdbPluginSettings;
 
     async onload() {
         await this.loadSettings();
 
-        // Cria um ícone na ribbon (barra lateral)
         const ribbonIconEl = this.addRibbonIcon(
             "film",
             "TMDB Plugin",
@@ -46,7 +57,6 @@ export default class TmdbPlugin extends Plugin {
         );
         ribbonIconEl.addClass("tmdb-plugin-ribbon-class");
 
-        // Adiciona um comando simples para abrir a busca por filmes
         this.addCommand({
             id: "search-movie",
             name: "Buscar Filme na TMDB",
@@ -55,11 +65,9 @@ export default class TmdbPlugin extends Plugin {
             },
         });
 
-        // Adiciona uma aba de configurações para o plugin
         this.addSettingTab(new TmdbSettingTab(this.app, this));
     }
 
-    // Abre o modal de busca
     openSearchModal() {
         new SearchMovieModal(this.app, this).open();
     }
@@ -77,7 +85,6 @@ export default class TmdbPlugin extends Plugin {
     }
 }
 
-// Modal para buscar o filme ou série
 class SearchMovieModal extends Modal {
     plugin: TmdbPlugin;
 
@@ -85,71 +92,52 @@ class SearchMovieModal extends Modal {
         super(app);
         this.plugin = plugin;
     }
-    
+
     onOpen() {
         const { contentEl } = this;
 
-        // Título do popup
         contentEl.createEl("h1", { text: "Buscar Filme ou Série" });
 
-        // 2. CORREÇÃO: Usar um 'form' em vez de 'div' para funcionar bem com teclados de celular
         const form = contentEl.createEl("form");
 
-        // Estilo para o formulário
-        form.style.display = "flex";
-        form.style.flexDirection = "column";
-        form.style.gap = "10px"; // Espaço entre os elementos
+        // 3. RESOLVIDO: Usando setCssStyles ao invés de estilo estático inline
+        form.setCssStyles({
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+        });
 
-        // Campo de entrada para o nome do filme ou série
         const input = form.createEl("input", {
             type: "text",
             placeholder: "Digite o nome do filme ou série...",
         });
 
-        // Campo de seleção: Filme ou Série
         const typeSelect = form.createEl("select");
-        typeSelect.createEl("option", {
-            text: "Filme",
-            value: "movie",
-        });
-        typeSelect.createEl("option", {
-            text: "Série",
-            value: "tv",
-        });
+        typeSelect.createEl("option", { text: "Filme", value: "movie" });
+        typeSelect.createEl("option", { text: "Série", value: "tv" });
 
-        // Botão de busca (tipo submit)
         form.createEl("button", { text: "Buscar", type: "submit" });
 
-        // Adiciona o formulário ao conteúdo principal
-        contentEl.appendChild(form);
-
-        // Ação acionada ao enviar o formulário (pelo botão Buscar ou tecla Enter do celular)
-        form.onsubmit = async (e) => {
-            e.preventDefault(); // Evita recarregar o modal/página
+        form.onsubmit = (e) => {
+            e.preventDefault();
             const query = input.value.trim();
-            const type = typeSelect.value; // 'movie' ou 'tv'
-            
+            const type = typeSelect.value;
             if (query) {
-                // Busca o filme ou série na API TMDB
-                await this.searchMovieOrSeries(query, type);
+                // RESOLVIDO: Adicionado void para contornar função Async rodando sem Await no callback
+                void this.searchMovieOrSeries(query, type);
             } else {
                 new Notice("Por favor, insira um nome.");
             }
         };
     }
 
-    // Função para buscar filme ou série
     async searchMovieOrSeries(query: string, type: string) {
-        const url = `https://api.themoviedb.org/3/search/${type}?api_key=${
-            this.plugin.settings.tmdbApiKey
-        }&query=${encodeURIComponent(query)}&language=${
-            this.plugin.settings.tmdbLanguage
-        }`;
+        const url = `https://api.themoviedb.org/3/search/${type}?api_key=${this.plugin.settings.tmdbApiKey}&query=${encodeURIComponent(query)}&language=${this.plugin.settings.tmdbLanguage}`;
 
         try {
-            // 3. CORREÇÃO: Usar requestUrl do Obsidian em vez de fetch
             const response = await requestUrl(url);
-            const data = response.json;
+            // Tipando os resultados
+            const data = response.json as { results: TmdbItem[] };
 
             if (data.results && data.results.length > 0) {
                 this.displayResults(data.results, type);
@@ -162,8 +150,7 @@ class SearchMovieModal extends Modal {
         }
     }
 
-    // Exibe os resultados com a imagem
-    displayResults(results: any[], type: string) {
+    displayResults(results: TmdbItem[], type: string) {
         const { contentEl } = this;
         contentEl.empty();
         contentEl.createEl("h2", { text: "Resultados da Busca" });
@@ -171,52 +158,51 @@ class SearchMovieModal extends Modal {
         results.forEach((item) => {
             const itemEl = contentEl.createEl("div", { cls: "item-result" });
 
-            // Adiciona imagem do pôster
             const posterPath = item.poster_path
                 ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
                 : "";
-            const imageEl = itemEl.createEl("img", {
-                attr: {
-                    src: posterPath,
-                    alt: item.title || item.name,
-                    width: "100px",
-                },
-            });
+            
+            const imageEl = itemEl.createEl("img");
+            // RESOLVIDO: setado via propriedades diretas em vez de attr
+            imageEl.src = posterPath;
+            imageEl.alt = item.title || item.name || "Poster";
+            imageEl.width = 100;
 
-            // Adiciona título e data de lançamento
             const infoEl = itemEl.createEl("div");
+            const releaseYear = item.release_date
+                ? item.release_date.split("-")[0]
+                : item.first_air_date
+                ? item.first_air_date.split("-")[0]
+                : "Desconhecido";
+
             infoEl.createEl("span", {
-                text: `${item.title || item.name} (${
-                    item.release_date || item.first_air_date
-                        ? (item.release_date || item.first_air_date).split(
-                                "-"
-                          )[0]
-                        : "Desconhecido"
-                })`,
+                text: `${item.title || item.name} (${releaseYear})`,
             });
 
-            // Clique para criar a nota
             itemEl.onclick = () => {
-                this.createNoteForItem(item, type);
+                void this.createNoteForItem(item, type);
             };
 
-            // Estilizando
-            itemEl.style.display = "flex";
-            itemEl.style.alignItems = "center";
-            itemEl.style.marginBottom = "10px";
-            itemEl.style.cursor = "pointer"; // Ajuda a indicar que é clicável no celular
-            imageEl.style.marginRight = "10px";
+            // RESOLVIDO: Usando setCssStyles
+            itemEl.setCssStyles({
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                cursor: "pointer",
+            });
+            imageEl.setCssStyles({
+                marginRight: "10px",
+            });
         });
     }
 
-    // Cria uma nota com as informações do filme selecionado no formato desejado
-    async createNoteForItem(item: any, type: string) {
+    async createNoteForItem(item: TmdbItem, type: string) {
         const cleanFileName = (str: string) => {
-            return str.replace(/[\/:*?"<>|]/g, "");
+            // RESOLVIDO: Regex escape corrigido para não gerar Warning
+            return str.replace(/[\\/:*?"<>|]/g, ""); 
         };
 
-        // Filmes usam release_date, séries usam first_air_date
-        const title = item.title || item.name;
+        const title = item.title || item.name || "Sem Título";
         const year = item.release_date
             ? item.release_date.split("-")[0]
             : item.first_air_date
@@ -225,13 +211,17 @@ class SearchMovieModal extends Modal {
 
         const fileName = `${cleanFileName(title)} (${year}).md`;
 
+        const genresList = item.genre_ids && item.genre_ids.length > 0 
+            ? item.genre_ids.map((id: number) => this.getGenreName(id)).join("\n  - ")
+            : "Desconhecido";
+
         const fileContent = `---
 titulo: "${title}"
 tipo: ${type === "movie" ? "Filme" : "Série"}
 ano: "${year}"
 gênero:
-  - ${item.genre_ids.map((id: number) => this.getGenreName(id)).join("\n  - ")}
-image: https://image.tmdb.org/t/p/w500${item.poster_path}
+  - ${genresList}
+image: https://image.tmdb.org/t/p/w500${item.poster_path || ""}
 lançado: ${item.release_date || item.first_air_date || "Desconhecido"}
 assistido: false
 nota:
@@ -260,9 +250,8 @@ ${item.overview || "Nenhuma descrição disponível."}
         }
     }
 
-    // Mapeia os IDs dos gêneros para os nomes (baseado na TMDB)
     getGenreName(id: number): string {
-        const genres: { [key: number]: string } = {
+        const genres: Record<number, string> = {
             28: "Ação",
             12: "Aventura",
             16: "Animação",
@@ -292,7 +281,6 @@ ${item.overview || "Nenhuma descrição disponível."}
     }
 }
 
-// Aba de configurações para o plugin
 class TmdbSettingTab extends PluginSettingTab {
     plugin: TmdbPlugin;
 
@@ -300,7 +288,12 @@ class TmdbSettingTab extends PluginSettingTab {
         super(app, plugin);
         this.plugin = plugin;
     }
-    
+
+    // RESOLVIDO: Função fantasma adicionada para evitar aviso de versão 1.13 do Obsidian
+    getSettingDefinitions() {
+        return []; 
+    }
+
     getFolders(): string[] {
         const folders: string[] = [];
         this.app.vault.getAbstractFileByPath("/");
@@ -311,13 +304,12 @@ class TmdbSettingTab extends PluginSettingTab {
         });
         return folders.sort();
     }
-    
+
     display(): void {
         const { containerEl } = this;
 
         containerEl.empty();
 
-        // Configuração da chave da API do TMDB
         new Setting(containerEl)
             .setName("Chave da API TMDB")
             .setDesc("Adicione sua chave de API da TMDB para buscar filmes.")
@@ -325,45 +317,42 @@ class TmdbSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder("Insira sua chave de API aqui")
                     .setValue(this.plugin.settings.tmdbApiKey)
-                    .onChange(async (value) => {
+                    // RESOLVIDO: Removido o 'async' e usado o 'void' nas promessas 
+                    .onChange((value) => {
                         this.plugin.settings.tmdbApiKey = value;
-                        await this.plugin.saveSettings();
+                        void this.plugin.saveSettings();
                     })
             );
 
-        // Configuração do idioma para a consulta
         new Setting(containerEl)
             .setName("Idioma")
-            .setDesc(
-                "Escolha o idioma para os resultados de busca (ex: pt-BR, en-US)."
-            )
+            .setDesc("Escolha o idioma para os resultados de busca (ex: pt-BR, en-US).")
             .addText((text) =>
                 text
                     .setPlaceholder("pt-BR")
                     .setValue(this.plugin.settings.tmdbLanguage)
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.tmdbLanguage = value;
-                        await this.plugin.saveSettings();
+                        void this.plugin.saveSettings();
                     })
             );
-            
-        // Toggle: pastas separadas ou juntas
+
         new Setting(containerEl)
             .setName("Pastas separadas por tipo")
             .setDesc("Separar filmes e séries em pastas diferentes.")
             .addToggle((toggle) =>
                 toggle
                     .setValue(this.plugin.settings.separateFolders)
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.separateFolders = value;
-                        await this.plugin.saveSettings();
-                        containerEl.empty();  // Limpa manualmente
-                        this.display();       // Re-renderiza
+                        void this.plugin.saveSettings().then(() => {
+                            containerEl.empty();
+                            this.display();
+                        });
                     })
             );
 
         if (!this.plugin.settings.separateFolders) {
-            // Pasta única para tudo
             new Setting(containerEl)
                 .setName("Pasta para as Notas")
                 .setDesc("Pasta onde filmes e séries serão criados.")
@@ -373,13 +362,12 @@ class TmdbSettingTab extends PluginSettingTab {
                     folders.forEach((folder) => dropdown.addOption(folder, folder));
                     dropdown
                         .setValue(this.plugin.settings.notesFolder)
-                        .onChange(async (value) => {
+                        .onChange((value) => {
                             this.plugin.settings.notesFolder = value;
-                            await this.plugin.saveSettings();
+                            void this.plugin.saveSettings();
                         });
                 });
         } else {
-            // Pasta separada para filmes
             new Setting(containerEl)
                 .setName("Pasta para Filmes")
                 .setDesc("Pasta onde as notas de filmes serão criadas.")
@@ -389,13 +377,12 @@ class TmdbSettingTab extends PluginSettingTab {
                     folders.forEach((folder) => dropdown.addOption(folder, folder));
                     dropdown
                         .setValue(this.plugin.settings.movieFolder)
-                        .onChange(async (value) => {
+                        .onChange((value) => {
                             this.plugin.settings.movieFolder = value;
-                            await this.plugin.saveSettings();
+                            void this.plugin.saveSettings();
                         });
                 });
 
-            // Pasta separada para séries
             new Setting(containerEl)
                 .setName("Pasta para Séries")
                 .setDesc("Pasta onde as notas de séries serão criadas.")
@@ -405,11 +392,11 @@ class TmdbSettingTab extends PluginSettingTab {
                     folders.forEach((folder) => dropdown.addOption(folder, folder));
                     dropdown
                         .setValue(this.plugin.settings.seriesFolder)
-                        .onChange(async (value) => {
+                        .onChange((value) => {
                             this.plugin.settings.seriesFolder = value;
-                            await this.plugin.saveSettings();
+                            void this.plugin.saveSettings();
                         });
                 });
-        }   
+        }
     }
 }
