@@ -10,7 +10,6 @@ import {
     requestUrl
 } from "obsidian";
 
-// 1. RESOLVIDO: Renomeado de 'MyPluginSettings'
 interface TmdbPluginSettings {
     tmdbApiKey: string;
     tmdbLanguage: string;
@@ -18,6 +17,7 @@ interface TmdbPluginSettings {
     movieFolder: string;
     seriesFolder: string;
     separateFolders: boolean;
+    openNoteAfterCreation: boolean; // NOVA OPÇÃO
 }
 
 const DEFAULT_SETTINGS: TmdbPluginSettings = {
@@ -27,9 +27,9 @@ const DEFAULT_SETTINGS: TmdbPluginSettings = {
     movieFolder: "",
     seriesFolder: "",
     separateFolders: false,
+    openNoteAfterCreation: true, // Padrão será verdadeiro (ligado)
 };
 
-// 2. RESOLVIDO: Removidos os avisos de "any" tipando os dados retornados pela API
 interface TmdbItem {
     id: number;
     title?: string;
@@ -50,7 +50,7 @@ export default class TmdbPlugin extends Plugin {
         const ribbonIconEl = this.addRibbonIcon(
             "film",
             "TMDB Plugin",
-            (evt: MouseEvent) => {
+            () => {
                 new Notice("Buscando filmes...");
                 this.openSearchModal();
             }
@@ -73,11 +73,8 @@ export default class TmdbPlugin extends Plugin {
     }
 
     async loadSettings() {
-        this.settings = Object.assign(
-            {},
-            DEFAULT_SETTINGS,
-            await this.loadData()
-        );
+        const loadedData = (await this.loadData()) as Partial<TmdbPluginSettings>;
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData);
     }
 
     async saveSettings() {
@@ -100,7 +97,6 @@ class SearchMovieModal extends Modal {
 
         const form = contentEl.createEl("form");
 
-        // 3. RESOLVIDO: Usando setCssStyles ao invés de estilo estático inline
         form.setCssStyles({
             display: "flex",
             flexDirection: "column",
@@ -123,8 +119,9 @@ class SearchMovieModal extends Modal {
             const query = input.value.trim();
             const type = typeSelect.value;
             if (query) {
-                // RESOLVIDO: Adicionado void para contornar função Async rodando sem Await no callback
-                void this.searchMovieOrSeries(query, type);
+                (async () => {
+                    await this.searchMovieOrSeries(query, type);
+                })();
             } else {
                 new Notice("Por favor, insira um nome.");
             }
@@ -136,7 +133,6 @@ class SearchMovieModal extends Modal {
 
         try {
             const response = await requestUrl(url);
-            // Tipando os resultados
             const data = response.json as { results: TmdbItem[] };
 
             if (data.results && data.results.length > 0) {
@@ -162,11 +158,13 @@ class SearchMovieModal extends Modal {
                 ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
                 : "";
             
-            const imageEl = itemEl.createEl("img");
-            // RESOLVIDO: setado via propriedades diretas em vez de attr
-            imageEl.src = posterPath;
-            imageEl.alt = item.title || item.name || "Poster";
-            imageEl.width = 100;
+            const imageEl = itemEl.createEl("img", {
+                attr: {
+                    src: posterPath,
+                    alt: item.title || item.name || "Poster",
+                    width: "100"
+                }
+            });
 
             const infoEl = itemEl.createEl("div");
             const releaseYear = item.release_date
@@ -180,10 +178,11 @@ class SearchMovieModal extends Modal {
             });
 
             itemEl.onclick = () => {
-                void this.createNoteForItem(item, type);
+                (async () => {
+                    await this.createNoteForItem(item, type);
+                })();
             };
 
-            // RESOLVIDO: Usando setCssStyles
             itemEl.setCssStyles({
                 display: "flex",
                 alignItems: "center",
@@ -198,7 +197,6 @@ class SearchMovieModal extends Modal {
 
     async createNoteForItem(item: TmdbItem, type: string) {
         const cleanFileName = (str: string) => {
-            // RESOLVIDO: Regex escape corrigido para não gerar Warning
             return str.replace(/[\\/:*?"<>|]/g, ""); 
         };
 
@@ -241,9 +239,18 @@ ${item.overview || "Nenhuma descrição disponível."}
         const fullPath = folderPath ? `${folderPath}/${fileName}` : fileName;
 
         try {
-            await this.app.vault.create(fullPath, fileContent);
+            // Salvamos o arquivo recém-criado em uma variável
+            const newFile = await this.app.vault.create(fullPath, fileContent);
             new Notice(`Nota criada: ${fullPath}`);
+            
+            // LÓGICA NOVA: Fecha o modal de pesquisa e abre a nota recém criada se a opção estiver ativada
             this.close();
+            
+            if (this.plugin.settings.openNoteAfterCreation) {
+                // Abre o arquivo na aba ativa atual
+                await this.app.workspace.getLeaf(false).openFile(newFile);
+            }
+
         } catch (err) {
             new Notice("Erro ao criar a nota. Verifique se a pasta existe.");
             console.error(err);
@@ -289,7 +296,6 @@ class TmdbSettingTab extends PluginSettingTab {
         this.plugin = plugin;
     }
 
-    // RESOLVIDO: Função fantasma adicionada para evitar aviso de versão 1.13 do Obsidian
     getSettingDefinitions() {
         return []; 
     }
@@ -317,10 +323,11 @@ class TmdbSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder("Insira sua chave de API aqui")
                     .setValue(this.plugin.settings.tmdbApiKey)
-                    // RESOLVIDO: Removido o 'async' e usado o 'void' nas promessas 
                     .onChange((value) => {
                         this.plugin.settings.tmdbApiKey = value;
-                        void this.plugin.saveSettings();
+                        (async () => {
+                            await this.plugin.saveSettings();
+                        })();
                     })
             );
 
@@ -333,7 +340,24 @@ class TmdbSettingTab extends PluginSettingTab {
                     .setValue(this.plugin.settings.tmdbLanguage)
                     .onChange((value) => {
                         this.plugin.settings.tmdbLanguage = value;
-                        void this.plugin.saveSettings();
+                        (async () => {
+                            await this.plugin.saveSettings();
+                        })();
+                    })
+            );
+
+        // NOVA CONFIGURAÇÃO NA TELA: Abrir nota após criação
+        new Setting(containerEl)
+            .setName("Abrir nota automaticamente")
+            .setDesc("Abre a nota do filme ou série recém-criada imediatamente.")
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(this.plugin.settings.openNoteAfterCreation)
+                    .onChange((value) => {
+                        this.plugin.settings.openNoteAfterCreation = value;
+                        (async () => {
+                            await this.plugin.saveSettings();
+                        })();
                     })
             );
 
@@ -345,10 +369,11 @@ class TmdbSettingTab extends PluginSettingTab {
                     .setValue(this.plugin.settings.separateFolders)
                     .onChange((value) => {
                         this.plugin.settings.separateFolders = value;
-                        void this.plugin.saveSettings().then(() => {
+                        (async () => {
+                            await this.plugin.saveSettings();
                             containerEl.empty();
                             this.display();
-                        });
+                        })();
                     })
             );
 
@@ -364,7 +389,9 @@ class TmdbSettingTab extends PluginSettingTab {
                         .setValue(this.plugin.settings.notesFolder)
                         .onChange((value) => {
                             this.plugin.settings.notesFolder = value;
-                            void this.plugin.saveSettings();
+                            (async () => {
+                                await this.plugin.saveSettings();
+                            })();
                         });
                 });
         } else {
@@ -379,7 +406,9 @@ class TmdbSettingTab extends PluginSettingTab {
                         .setValue(this.plugin.settings.movieFolder)
                         .onChange((value) => {
                             this.plugin.settings.movieFolder = value;
-                            void this.plugin.saveSettings();
+                            (async () => {
+                                await this.plugin.saveSettings();
+                            })();
                         });
                 });
 
@@ -394,7 +423,9 @@ class TmdbSettingTab extends PluginSettingTab {
                         .setValue(this.plugin.settings.seriesFolder)
                         .onChange((value) => {
                             this.plugin.settings.seriesFolder = value;
-                            void this.plugin.saveSettings();
+                            (async () => {
+                                await this.plugin.saveSettings();
+                            })();
                         });
                 });
         }
