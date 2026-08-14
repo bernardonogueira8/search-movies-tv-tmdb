@@ -6,5 +6,5 @@
 	"description": "Search for movies and TV shows on TMDB and automatically create notes with ratings.",
 	"author": "Bernardo Nogueira",
 	"authorUrl": "https://github.com/bernardonogueira8",
-	"isDesktopOnly": true
+	"isDesktopOnly": false
 }
