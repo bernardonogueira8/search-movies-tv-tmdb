@@ -1,10 +1,10 @@
 {
-	"id": "search-movies-tv-tmdb",
-	"name": "Search Movies and TV Shows TMDB",
-	"version": "1.0.4",
-	"minAppVersion": "1.1.0",
-	"description": "Search for movies and TV shows on TMDB and automatically create notes with ratings.",
-	"author": "Bernardo Nogueira",
-	"authorUrl": "https://github.com/bernardonogueira8",
-	"isDesktopOnly": false
+  "id": "search-movies-tv-tmdb",
+  "name": "Search Movies and TV Shows TMDB",
+  "version": "1.1.0",
+  "minAppVersion": "1.0.0",
+  "description": "Um plugin para buscar informações de filmes usando a API TMDB.",
+  "author": "Bernardo Nogueira",
+  "authorUrl": "https://github.com/bernardonogueira8",
+  "isDesktopOnly": false
 }

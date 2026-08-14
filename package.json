@@ -1,6 +1,6 @@
 {
     "name": "search-movies-tv-tmdb",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "description": "Search for movies and TV shows on TMDB and automatically create notes with ratings.",
     "main": "main.js",
     "scripts": {
