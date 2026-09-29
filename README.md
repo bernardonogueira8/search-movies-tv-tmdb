@@ -7,7 +7,7 @@
 ---
 
 <a id="english"></a>
-# Search Movies and TV Shows TMDB <img src="https://img.shields.io/badge/version%20project-1.1.0-brightgreen" alt="version project">
+# Search Movies and TV Shows TMDB <img src="https://img.shields.io/badge/version%20project-2.0.0-brightgreen" alt="version project">
 
 A plugin to search for movie and TV show information using the TMDB API. 
 
