@@ -1,7 +1,7 @@
 {
   "id": "search-movies-tv-tmdb",
   "name": "Search Movies and TV Shows TMDB",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "minAppVersion": "1.0.0",
   "description": "Um plugin para buscar informações de filmes e séries usando a API TMDB.",
   "author": "Bernardo Nogueira",
