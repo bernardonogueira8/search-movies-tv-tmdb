@@ -317,7 +317,7 @@ class SearchMovieModal extends Modal {
         };
 
         // Foco automático no campo de pesquisa
-        setTimeout(() => searchInput.focus(), 60);
+        window.setTimeout(() => searchInput.focus(), 60);
     }
 
     async search(query: string, type: "multi" | "movie" | "tv") {
@@ -704,7 +704,9 @@ class TmdbSettingTab extends PluginSettingTab {
                 .addDropdown((dropdown) => {
                     const folders = this.getFolders();
                     dropdown.addOption("", "— Raiz do Vault —");
-                    folders.forEach((folder) => dropdown.addOption(folder, folder));
+                    folders.forEach((folder) => {
+                        dropdown.addOption(folder, folder);
+                    });
                     dropdown
                         .setValue(this.plugin.settings.notesFolder || "")
                         .onChange((value) => {
@@ -719,7 +721,9 @@ class TmdbSettingTab extends PluginSettingTab {
                 .addDropdown((dropdown) => {
                     const folders = this.getFolders();
                     dropdown.addOption("", "— Raiz do Vault —");
-                    folders.forEach((folder) => dropdown.addOption(folder, folder));
+                    folders.forEach((folder) => {
+                        dropdown.addOption(folder, folder);
+                    });
                     dropdown
                         .setValue(this.plugin.settings.movieFolder || "")
                         .onChange((value) => {
@@ -734,7 +738,9 @@ class TmdbSettingTab extends PluginSettingTab {
                 .addDropdown((dropdown) => {
                     const folders = this.getFolders();
                     dropdown.addOption("", "— Raiz do Vault —");
-                    folders.forEach((folder) => dropdown.addOption(folder, folder));
+                    folders.forEach((folder) => {
+                        dropdown.addOption(folder, folder);
+                    });
                     dropdown
                         .setValue(this.plugin.settings.seriesFolder || "")
                         .onChange((value) => {
@@ -745,7 +751,7 @@ class TmdbSettingTab extends PluginSettingTab {
         }
 
         // Customização de Template
-        containerEl.createEl("h3", { text: "Modelo da Nota (Template)" });
+        new Setting(containerEl).setName("Modelo da Nota (Template)").setHeading();
         const templateDesc = containerEl.createEl("p", {
             cls: "setting-item-description",
             text: "Personalize o conteúdo e os campos da nota. Placeholders disponíveis: {{title}}, {{type}}, {{year}}, {{genres}}, {{director}}, {{runtime}}, {{rating}}, {{poster}}, {{banner}}, {{release_date}}, {{overview}}, {{cast}}, {{seasons}}, {{episodes}}, {{status}}.",
