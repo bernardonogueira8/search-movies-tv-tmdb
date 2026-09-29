@@ -65,7 +65,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ---
 
 <a id="português-do-brasil"></a>
-# Search Movies and TV Shows TMDB <img src="https://img.shields.io/badge/version%20project-1.1.0-brightgreen" alt="version project">
+# Search Movies and TV Shows TMDB <img src="https://img.shields.io/badge/version%20project-2.0.0-brightgreen" alt="version project">
 
 Um plugin para buscar informações de filmes usando a API TMDB. 
 
