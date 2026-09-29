@@ -1,0 +1,235 @@
+/* TMDB Plugin Styles */
+
+.tmdb-modal {
+    padding: 6px 0;
+}
+
+.tmdb-modal-header {
+    margin-bottom: 16px;
+}
+
+.tmdb-modal-title {
+    margin: 0 0 12px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.tmdb-search-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tmdb-search-input {
+    flex: 1;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--background-modifier-form-field);
+    border: 1px solid var(--background-modifier-border);
+    color: var(--text-normal);
+}
+
+.tmdb-search-input:focus {
+    border-color: var(--interactive-accent);
+    outline: none;
+}
+
+.tmdb-filters {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.tmdb-filter-btn {
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    color: var(--text-muted);
+    transition: all 0.15s ease;
+}
+
+.tmdb-filter-btn:hover {
+    background: var(--background-modifier-hover);
+    color: var(--text-normal);
+}
+
+.tmdb-filter-btn.is-active {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border-color: var(--interactive-accent);
+    font-weight: 500;
+}
+
+.tmdb-results-container {
+    max-height: 52vh;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tmdb-result-card {
+    display: flex;
+    gap: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    cursor: pointer;
+    transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.tmdb-result-card:hover,
+.tmdb-result-card:focus {
+    background: var(--background-modifier-hover);
+    border-color: var(--interactive-accent);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.tmdb-poster {
+    width: 65px;
+    height: 98px;
+    border-radius: 6px;
+    object-fit: cover;
+    background-color: var(--background-secondary-alt);
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tmdb-poster-placeholder {
+    width: 65px;
+    height: 98px;
+    border-radius: 6px;
+    background-color: var(--background-secondary-alt);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.tmdb-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    min-width: 0;
+}
+
+.tmdb-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tmdb-card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-normal);
+}
+
+.tmdb-card-year {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.tmdb-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tmdb-badge-movie {
+    background: rgba(56, 139, 253, 0.15);
+    color: #58a6ff;
+    border: 1px solid rgba(56, 139, 253, 0.3);
+}
+
+.tmdb-badge-tv {
+    background: rgba(187, 128, 255, 0.15);
+    color: #bc8cff;
+    border: 1px solid rgba(187, 128, 255, 0.3);
+}
+
+.tmdb-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.tmdb-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    color: #e3b341;
+}
+
+.tmdb-genres {
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tmdb-card-overview {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tmdb-status-msg {
+    text-align: center;
+    padding: 30px 10px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.tmdb-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-muted);
+    border-top-color: var(--interactive-accent);
+    border-radius: 50%;
+    animation: tmdb-spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes tmdb-spin {
+    to { transform: rotate(360deg); }
+}
+
+.tmdb-template-textarea {
+    width: 100%;
+    font-family: var(--font-monospace);
+    font-size: 0.85rem;
+    min-height: 200px;
+    border-radius: 6px;
+    padding: 8px;
+    line-height: 1.4;
+    resize: vertical;
+    background: var(--background-modifier-form-field);
+    border: 1px solid var(--background-modifier-border);
+    color: var(--text-normal);
+}

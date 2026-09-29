@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "45c24b74489e03f9",
+        "id": "4322e7846ae0799b",
         "type": "tabs",
         "children": [
           {
-            "id": "353a8a24fa02ebea",
+            "id": "b4605d4a4aa4cf68",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Multi Tom (2016).md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nova aba"
+              "title": "Multi Tom (2016)"
             }
           }
         ]
@@ -37,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Explorador de arquivos"
@@ -170,20 +176,26 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "search-movies-tv-tmdb:Buscar Filmes e Séries no TMDB": false,
       "switcher:Abrir a troca rápida": false,
       "graph:Abrir visualização em gráfico": false,
       "canvas:Criar novo canvas": false,
       "daily-notes:Abrir a nota de hoje": false,
       "templates:Inserir modelo": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Criar nova base": false,
-      "obsidian-plugin-tmdb:TMDB Plugin": false,
-      "notebook-navigator:Notebook Navigator": false
+      "bases:Criar nova base": false
     }
   },
-  "active": "ccf89ec1401bd8a5",
+  "active": "b4605d4a4aa4cf68",
   "lastOpenFiles": [
+    "Muito Barulho por Nada (1993).md",
+    "Multi Tom (2016).md",
+    "Notes/Series/A Casa do Dragão (2022).md",
     "Notes/Series/Ranma12 (2024).md",
+    "Notes/Series/Big Bang A Teoria (2007).md",
+    "Notes/Apenas Amigos (2005).md",
+    "Filmes/Matrix (1999).md",
+    "Filmes/O Substituto (2011).md",
     "Filmes/Jogador N° 1 (2018).md",
     "Filmes/ddd (2024).md",
     "Filmes/BaddDDD Sonia Sanchez (2015).md",
@@ -198,7 +210,6 @@
     "Filmes/Todo Mundo em Pânico (2026).md",
     "Notes/Series",
     "Filmes",
-    "Notes/Apenas Amigos (2005).md",
     "Notes/List Film.md",
     "media",
     "Sem título.md",
